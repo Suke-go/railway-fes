@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Receipt</title>
+    <script type="module" src="/src/main.ts" defer></script>
+  </head>
+
+  <body>
+    <!-- App state machine: idle → loading → ready → calibration → playing → done -->
+    <main id="app" data-state="idle">
+      <!-- Idle: file pickers / start buttons -->
+      <section data-screen="idle">
+        <h1>Receipt</h1>
+        <button id="btn-pick-transcript">トランスクリプト読込</button>
+        <button id="btn-pick-audio" disabled>音声ファイル読込</button>
+        <div id="loaded-summary"></div>
+
+        <div id="api-key-panel">
+          <div id="api-key-status"></div>
+          <input id="api-key-input" type="password" placeholder="OpenAI API key (sk-...)" />
+          <button id="btn-set-api-key">保存</button>
+          <button id="btn-clear-api-key">削除</button>
+        </div>
+      </section>
+
+      <!-- Loading: alignment in progress, model download, etc. -->
+      <section data-screen="loading" hidden>
+        <p id="loading-message">準備中…</p>
+        <progress id="loading-progress" max="100" value="0"></progress>
+      </section>
+
+      <!-- Ready: chosen transcript+audio, calibration button, start playback -->
+      <section data-screen="ready" hidden>
+        <div id="ready-summary"></div>
+        <div id="alignment-status"></div>
+        <button id="btn-start">再生開始</button>
+        <button id="btn-realign">再アラインメント</button>
+        <button id="btn-calibrate">キャリブレーション</button>
+        <button id="btn-reset-from-ready">ファイル選び直し</button>
+      </section>
+
+      <!-- Calibration: test print + Space key to record offset -->
+      <section data-screen="calibration" hidden>
+        <p>テスト印字を実行します。印字が排紙口から出た瞬間に Space キーを押してください。</p>
+        <button id="btn-calibration-start">テスト印字開始</button>
+        <p id="calibration-result"></p>
+      </section>
+
+      <!-- Playing: the typewriter display + status -->
+      <section data-screen="playing" hidden>
+        <div id="phrase-stage" aria-live="polite">
+          <span id="phrase-speaker"></span>
+          <span id="phrase-text"></span>
+        </div>
+        <div id="playback-status"></div>
+        <button id="btn-stop">停止</button>
+      </section>
+
+      <!-- Done: end of session -->
+      <section data-screen="done" hidden>
+        <p>終了しました。</p>
+        <button id="btn-reset">最初に戻る</button>
+      </section>
+    </main>
+  </body>
+</html>

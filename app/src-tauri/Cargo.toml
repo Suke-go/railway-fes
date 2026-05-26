@@ -1,0 +1,56 @@
+[package]
+name = "app"
+version = "0.1.0"
+description = "Receipt — oral history installation that syncs audio, on-screen typewriter display, and a thermal receipt printer"
+authors = ["you"]
+edition = "2021"
+
+[lib]
+name = "app_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-opener = "2"
+tauri-plugin-dialog = "2"
+tauri-plugin-shell = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "sync", "time", "fs", "process", "io-util"] }
+tempfile = "3"
+anyhow = "1"
+thiserror = "2"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+parking_lot = "0.12"
+sha2 = "0.10"
+dirs = "5"
+encoding_rs = "0.8"
+
+# Audio playback. rodio's default features cover WAV; symphonia-mp3 adds MP3
+# support via the symphonia decoder. Both WAV and MP3 are needed for the
+# "drop in any audio file" UX.
+rodio = { version = "0.20", default-features = false, features = ["symphonia-wav", "symphonia-mp3", "symphonia-flac"] }
+hound = "3"
+
+# OpenAI Whisper API client. rustls-tls keeps us off OpenSSL.
+reqwest = { version = "0.12", default-features = false, features = ["json", "multipart", "rustls-tls"] }
+
+# USB direct printer access (libusb) AND whisper.cpp forced-alignment.
+# Both gated to non-Windows: rusb because the printer driver is macOS-only at
+# this stage; whisper-rs because building whisper.cpp requires cmake + a C++
+# toolchain that isn't guaranteed on the Windows dev box. The crate pulls
+# whisper.cpp from GitHub via its own build script and compiles it as part of
+# our cargo build, so "from github, bundled" is satisfied transitively.
+[target.'cfg(not(target_os = "windows"))'.dependencies]
+rusb = "0.9"
+whisper-rs = "0.14"
+
+# Audio playback — pulled in once we wire the player. Kept commented to keep
+# the initial build lean until we need it.
+# rodio = "0.20"
+# hound = "3"

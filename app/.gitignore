@@ -1,0 +1,31 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# whisper.cpp model files — fetched via scripts/fetch-model.sh, too large for git
+src-tauri/resources/models/*.bin
+
+# ffmpeg sidecar binaries — fetched per-platform via `npm run fetch-ffmpeg`.
+# Each developer / CI agent runs the fetch on their own machine.
+src-tauri/binaries/ffmpeg-*

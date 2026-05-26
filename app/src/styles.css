@@ -1,0 +1,83 @@
+/* Skeleton styles only — no design language yet. Layout / animation come
+   later once the state machine and backend events are wired through. */
+
+:root {
+  font-family: system-ui, -apple-system, "Hiragino Sans", "Noto Sans JP", sans-serif;
+  font-size: 16px;
+  color: #111;
+  background: #fff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+#app {
+  padding: 1rem;
+}
+
+section[data-screen] {
+  display: block;
+}
+
+section[data-screen][hidden] {
+  display: none;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  margin: 0.25rem;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+#api-key-panel {
+  margin-top: 1.5rem;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+#api-key-status {
+  font-size: 0.85rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+#api-key-input {
+  width: 22rem;
+  padding: 0.4rem;
+  margin-right: 0.25rem;
+}
+
+#phrase-stage {
+  min-height: 4rem;
+}
+
+#phrase-speaker {
+  display: block;
+  font-size: 0.8rem;
+  color: #888;
+}
+
+#phrase-text {
+  display: block;
+}
+
+#phrase-text .char {
+  opacity: 0;
+  transition: opacity 60ms ease-out;
+}
+
+#phrase-text .char.shown {
+  opacity: 1;
+}

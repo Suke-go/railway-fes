@@ -1,0 +1,20 @@
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.log
+*.swp
+*.swo
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Oral history source material — text + audio are personal interview
+# content and not redistributed with the code. Drop your own files in
+# `oralhistory/` locally; the directory exists via .gitkeep.
+oralhistory/*
+!oralhistory/.gitkeep
+!oralhistory/README.md
+
+# Memory / state directories that should never be committed
+**/whisper_cache/
+settings.json
