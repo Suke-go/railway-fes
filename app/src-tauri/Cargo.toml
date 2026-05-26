@@ -40,15 +40,11 @@ hound = "3"
 # OpenAI Whisper API client. rustls-tls keeps us off OpenSSL.
 reqwest = { version = "0.12", default-features = false, features = ["json", "multipart", "rustls-tls"] }
 
-# USB direct printer access (libusb) AND whisper.cpp forced-alignment.
-# Both gated to non-Windows: rusb because the printer driver is macOS-only at
-# this stage; whisper-rs because building whisper.cpp requires cmake + a C++
-# toolchain that isn't guaranteed on the Windows dev box. The crate pulls
-# whisper.cpp from GitHub via its own build script and compiles it as part of
-# our cargo build, so "from github, bundled" is satisfied transitively.
+# USB direct printer access (libusb). Gated to non-Windows because the
+# printer driver is macOS-only at this stage; Windows dev builds use the
+# stub backend.
 [target.'cfg(not(target_os = "windows"))'.dependencies]
 rusb = "0.9"
-whisper-rs = "0.14"
 
 # Audio playback — pulled in once we wire the player. Kept commented to keep
 # the initial build lean until we need it.
